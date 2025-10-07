@@ -16,6 +16,8 @@ namespace QueueSystem.Common.Repository
         void Update(T entity);
         void Remove(T entity);
 
+        void RemoveRange(IEnumerable<T> entities);
+
         // Include-capable helpers
         Task<IEnumerable<T>> GetAllIncludingAsync(params Expression<Func<T, object>>[] includeProperties);
         Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);

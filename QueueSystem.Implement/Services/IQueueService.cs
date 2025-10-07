@@ -1,10 +1,11 @@
-﻿using QueueSystem.Implement.ViewModels;
+﻿using QueueSystem.Implement.ViewModels.Request;
+using QueueSystem.Implement.ViewModels.Response;
 
 namespace QueueSystem.Implement.Services
 {
     public interface IQueueService
     {
-        Task<RegisterResultDto> RegisterAsync(RegisterRequestDto request);
-        Task<List<TicketInfoDto>> GetAllTicketsAsync();
+        Task<RegisterResponse> RegisterAsync(RegisterRequest request);
+        Task<List<TicketInforResponse>> GetAllTicketsAsync();
     }
 }

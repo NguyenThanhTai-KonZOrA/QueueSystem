@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QueueSystem.Implement.ViewModels
+﻿namespace QueueSystem.Implement.ViewModels.Response
 {
-    public class RegisterResultDto
+    public class RegisterResponse
     {
         public int TicketId { get; set; }
         public int UserId { get; set; }

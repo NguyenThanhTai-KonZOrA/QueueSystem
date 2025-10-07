@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QueueSystem.Implement.Services;
-using QueueSystem.Implement.ViewModels;
+using QueueSystem.Implement.ViewModels.Request;
 
 namespace QueueSystem.Controllers
 {
@@ -16,7 +16,7 @@ namespace QueueSystem.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             var result = await _queueService.RegisterAsync(request);
             return Ok(result);

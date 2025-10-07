@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QueueSystem.Implement.ViewModels
+﻿namespace QueueSystem.Implement.ViewModels.Request
 {
-    public class RegisterRequestDto
+    public class RegisterRequest
     {
         public string FullName { get; set; } = string.Empty;
         public string? Phone { get; set; }

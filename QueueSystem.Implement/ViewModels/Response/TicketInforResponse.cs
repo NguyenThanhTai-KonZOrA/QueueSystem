@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QueueSystem.Implement.ViewModels
+﻿namespace QueueSystem.Implement.ViewModels.Response
 {
-    public class TicketInfoDto
+    public class TicketInforResponse
     {
         public int TicketId { get; set; }
         public string TicketNumber { get; set; } = string.Empty;
