@@ -8,7 +8,15 @@ namespace QueueSystem.Implement.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly QueueSystemDbContext _context;
-
+        public UnitOfWork(QueueSystemDbContext context)
+        {
+            _context = context;
+            Patron = new GenericRepository<Patron>(_context);
+            TicketArchive = new GenericRepository<TicketArchive>(_context);
+            QueueTicket = new GenericRepository<QueueTicket>(_context);
+            Counters = new GenericRepository<Counters>(_context);
+            CounterSequence = new GenericRepository<CounterSequence>(_context);
+        }
         public IGenericRepository<Patron> Patron { get; }
 
         public IGenericRepository<TicketArchive> TicketArchive { get; }
@@ -19,15 +27,7 @@ namespace QueueSystem.Implement.UnitOfWork
 
         public IGenericRepository<CounterSequence> CounterSequence { get; }
 
-        public UnitOfWork(QueueSystemDbContext context)
-        {
-            _context = context;
-            Patron = new GenericRepository<Patron>(context);
-            TicketArchive = new GenericRepository<TicketArchive>(context);
-            QueueTicket = new GenericRepository<QueueTicket>(context);
-            Counters = new GenericRepository<Counters>(context);
-            CounterSequence = new GenericRepository<CounterSequence>(context);
-        }
+
         public async Task<int> CompleteAsync() => await _context.SaveChangesAsync();
         public void Update() => _context.Update(this);
         public void UpdateRange() => _context.UpdateRange(this);

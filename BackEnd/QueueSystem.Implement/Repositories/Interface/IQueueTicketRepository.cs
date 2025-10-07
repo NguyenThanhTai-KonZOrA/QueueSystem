@@ -6,6 +6,6 @@ namespace QueueSystem.Implement.Repositories.Interface
     public interface IQueueTicketRepository : IGenericRepository<QueueTicket>
     {
         Task<List<QueueTicket>> GetTicketsOlder(DateTime date);
-        Task<LinkedList<QueueTicket>> GetAllTicketsWithUserAsync();
+        Task<List<QueueTicket>> GetAllTicketsWithUserAsync();
     }
 }

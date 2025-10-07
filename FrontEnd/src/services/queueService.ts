@@ -1,35 +1,31 @@
 import axios from "axios";
+import type { RegisterMemberRequest, RegisterNewUserRequest, TicketResponse } from "../type";
 
 const api = axios.create({
-  baseURL: "https://localhost:5001/api/queue", // đổi thành URL backend của bạn
+  baseURL: "https://localhost:7212/api/Queue", // đổi thành URL backend của bạn
   headers: { "Content-Type": "application/json" }
 });
 
-export interface RegisterNewUserRequest {
-  fullName: string;
-  phone: string;
-  email: string;
-  counterId: number;
-}
+type ApiEnvelope<T> = {
+  status: number;
+  data: T;
+  success: boolean;
+};
 
-export interface RegisterMemberRequest {
-  memberId: string;
-  counterId: number;
-}
-
-export interface TicketResponse {
-  ticketNumber: number;
-  qrCodeUrl: string;
-  message: string;
+function unwrapApiEnvelope<T>(response: { data: ApiEnvelope<T> }): T {
+  if (!response.data.success) {
+    throw new Error("API call failed");
+  }
+  return response.data.data;
 }
 
 export const queueService = {
   registerNewUser: async (data: RegisterNewUserRequest): Promise<TicketResponse> => {
-    const res = await api.post("/register-new", data);
-    return res.data;
+    const res = await api.post("/register", data);
+    return unwrapApiEnvelope(res);
   },
   registerByMember: async (data: RegisterMemberRequest): Promise<TicketResponse> => {
     const res = await api.post("/register-member", data);
-    return res.data;
+    return unwrapApiEnvelope(res);
   }
 };

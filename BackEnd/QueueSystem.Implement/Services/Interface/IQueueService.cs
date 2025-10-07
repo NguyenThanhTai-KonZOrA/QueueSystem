@@ -1,7 +1,7 @@
 ﻿using QueueSystem.Implement.ViewModels.Request;
 using QueueSystem.Implement.ViewModels.Response;
 
-namespace QueueSystem.Implement.Services
+namespace QueueSystem.Implement.Services.Interface
 {
     public interface IQueueService
     {

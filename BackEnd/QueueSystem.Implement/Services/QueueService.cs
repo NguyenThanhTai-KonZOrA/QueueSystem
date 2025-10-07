@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using QueueSystem.Implement.ApplicationDbContext;
 using QueueSystem.Implement.EntityModels;
-using QueueSystem.Implement.Repositories;
 using QueueSystem.Implement.Repositories.Interface;
-using QueueSystem.Implement.Services;
+using QueueSystem.Implement.Services.Interface;
 using QueueSystem.Implement.UnitOfWork;
 using QueueSystem.Implement.ViewModels.Request;
 using QueueSystem.Implement.ViewModels.Response;
@@ -13,7 +12,6 @@ namespace QueueSystem.Services
 {
     public class QueueService : IQueueService
     {
-        private readonly IQueueRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<QueueService> _logger;
         private readonly IConfiguration _configuration;
@@ -23,7 +21,7 @@ namespace QueueSystem.Services
         private readonly ICounterSequenceRepository _counterSequenceRepository;
         private readonly ITicketArchiveRepository _ticketArchiveRepository;
 
-        public QueueService(IQueueRepository repository,
+        public QueueService(
             ILogger<QueueService> logger,
             IConfiguration configuration,
             IQueueTicketRepository queueTicketRepository,
@@ -33,7 +31,6 @@ namespace QueueSystem.Services
             ITicketArchiveRepository ticketArchiveRepository,
             IUnitOfWork unitOfWork)
         {
-            _repository = repository;
             _logger = logger;
             _configuration = configuration;
             _queueTicketRepository = queueTicketRepository;
@@ -46,8 +43,10 @@ namespace QueueSystem.Services
 
         public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
         {
-            var patron = await _patronRepository.GetUserByPhoneOrEmailAsync(request.Phone, request.Email);
+            if (string.IsNullOrWhiteSpace(request.FullName))
+                throw new ArgumentException("FullName is required", nameof(request.FullName));
 
+            var patron = await _patronRepository.GetUserByPhoneOrEmailAsync(request.Phone, request.Email);
             if (patron == null)
             {
                 patron = new Patron
@@ -58,17 +57,33 @@ namespace QueueSystem.Services
                     CreatedAt = DateTime.UtcNow
                 };
                 await _patronRepository.AddAsync(patron);
-                await _unitOfWork.CompleteAsync();
             }
 
-            var today = DateTime.UtcNow.Date;
+            var counter = await _countersRepository.FirstOrDefaultAsync(x => x.Name == request.CounterName);
 
-            var sequence = await _counterSequenceRepository.GetCounterSequencesAsync(request.CounterId, today);
+
+            if (counter == null)
+            {
+                counter = new Counters
+                {
+                    Name = request.CounterName,
+                    Description = "Create By System"
+                };
+                await _countersRepository.AddAsync(counter);
+            }
+
+            await _unitOfWork.CompleteAsync();
+
+            var counterId = counter.Id;
+            var today = DateTime.UtcNow.Date;
+            //using var transaction = await (_unitOfWork as QueueSystemDbContext)?.Database.BeginTransactionAsync();
+
+            var sequence = await _counterSequenceRepository.GetCounterSequencesAsync(counterId, today);
             if (sequence == null)
             {
                 sequence = new CounterSequence
                 {
-                    CounterId = request.CounterId,
+                    CounterId = counterId,
                     SequenceDate = today,
                     LastNumber = 1
                 };
@@ -85,22 +100,24 @@ namespace QueueSystem.Services
             {
                 TicketNumber = sequence.LastNumber,
                 TicketDate = today,
-                CounterId = request.CounterId,
+                CounterId = counterId,
                 PatronId = patron.Id,
                 Status = "Pending",
                 CreatedAt = DateTime.UtcNow
             };
 
             await _queueTicketRepository.AddAsync(ticket);
-
             await _unitOfWork.CompleteAsync();
+
+            //await transaction.CommitAsync();
+
             return new RegisterResponse
             {
                 TicketId = ticket.Id,
-                UserId = ticket.PatronId,
+                PatronId = ticket.PatronId,
                 CounterId = ticket.CounterId,
-                TicketNumber = $"{(await _countersRepository.GetByIdAsync(ticket.CounterId))?.Name ?? $"C{ticket.CounterId}"}{ticket.TicketNumber:D3}",
-                TicketDate = ticket.TicketDate.ToString("yyyy-MM-dd"),
+                TicketNumber = ticket.TicketNumber,
+                TicketDate = ticket.TicketDate.ToString("dd/MM/yyyy"),
                 Status = ticket.Status
             };
         }

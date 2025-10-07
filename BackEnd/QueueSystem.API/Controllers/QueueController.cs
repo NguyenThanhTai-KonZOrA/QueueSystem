@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using QueueSystem.Implement.Services;
+using QueueSystem.Implement.Services.Interface;
 using QueueSystem.Implement.ViewModels.Request;
 
 namespace QueueSystem.Controllers
