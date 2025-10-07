@@ -1,0 +1,23 @@
+{
+  "home": "Home",
+  "welcome": "Welcome to Queue System",
+  "GetTicketTitle": "The System Will Get Ticket Number",
+  "GetTicket": "Get Ticket Number",
+  "ICanHelp": "I Can Help You?",
+  "Register": "Register new account",
+  "Membership": "Existing Membership",
+  "PleaseFillInfo": "Please fill in the information below",
+  "FullName": "Full Name",
+  "PhoneNumber": "Phone Number",
+  "MemberID": "Member ID",
+  "PassportID": "Passport ID",
+  "Back": "Back",
+  "Start": "Start",
+  "YourTicketNumber": "Your Ticket Number",
+    "Return to home in": "Return to home in",
+    "seconds": "seconds",
+  "get_ticket": "The System Will Get Ticket Number",
+  "thank_you": "Thank You",
+  "please_collect": "Please collect your ticket from the printer.",
+  "scan_status": "Scan for ticket status"
+}

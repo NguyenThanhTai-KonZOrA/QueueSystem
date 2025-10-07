@@ -1,7 +1,6 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { queueService } from "../services/queueService";
-import MainLayout from "../layout/MainLayout";
 interface Step2NewFormProps {
   onBack: () => void;
   onSuccess: (ticket: any) => void;

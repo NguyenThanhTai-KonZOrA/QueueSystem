@@ -1,0 +1,23 @@
+{
+  "home": "Trang chủ",
+  "welcome": "Chào mừng đến hệ thống xếp hàng",
+  "GetTicketTitle": "Hệ thống sẽ lấy số tự động",
+  "GetTicket": "Lấy số thứ tự",
+  "ICanHelp": "Tôi có thể giúp gì cho bạn?",
+  "Register": "Đăng ký tài khoản mới",
+  "Membership": "Thành viên hiện tại",
+    "PleaseFillInfo": "Vui lòng điền thông tin bên dưới",
+    "FullName": "Họ và tên",
+    "PhoneNumber": "Số điện thoại",
+    "MemberID": "Mã thành viên",
+    "PassportID": "Số hộ chiếu",
+    "Back": "Quay lại", 
+    "get_ticket": "Hệ thống sẽ lấy số tự động",
+    "Start": "Bắt đầu",
+    "YourTicketNumber": "Số thứ tự của bạn",
+    "Return to home in": "Quay về trang chủ sau",
+    "seconds": "giây",
+  "thank_you": "Cảm ơn bạn",
+  "please_collect": "Vui lòng nhận vé từ máy in.",
+  "scan_status": "Quét mã để kiểm tra trạng thái vé"
+}
