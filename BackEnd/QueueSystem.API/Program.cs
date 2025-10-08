@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NLog.Web;
 using QueueSystem.Implement.ApplicationDbContext;
 using QueueSystem.Implement.Repositories;
 using QueueSystem.Implement.Repositories.Interface;
@@ -35,6 +36,10 @@ builder.Services.AddTransient<IQueueTicketRepository, QueueTicketRepository>();
 builder.Services.AddTransient<ITicketArchiveRepository, TicketArchiveRepository>();
 builder.Services.AddTransient<IQueueService, QueueService>();
 
+
+builder.Logging.ClearProviders();
+builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+builder.Host.UseNLog();
 
 var app = builder.Build();
 

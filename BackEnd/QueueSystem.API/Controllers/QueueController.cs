@@ -18,15 +18,30 @@ namespace QueueSystem.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            var result = await _queueService.RegisterAsync(request);
-            return Ok(result);
+            try
+            {
+                var result = await _queueService.RegisterAsync(request);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw new BadHttpRequestException(ex.Message);
+            }
+
         }
 
         [HttpGet("tickets")]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _queueService.GetAllTicketsAsync();
-            return Ok(result);
+            try
+            {
+                var result = await _queueService.GetAllTicketsAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw new BadHttpRequestException(ex.Message);
+            }
         }
     }
 }
